@@ -1,0 +1,17 @@
+# let git convert text files automatically
+*               text=auto
+
+# declare common binary types in case git guesses wrongly
+*.exe           binary
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.ico           binary
+*.icns          binary
+*.eot           binary
+*.otf           binary
+*.ttf           binary
+*.woff          binary
+*.woff2         binary
+
+yarn.lock       linguist-generated -diff
