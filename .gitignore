@@ -5,3 +5,6 @@ node_modules/
 !.yarn/patches
 !.yarn/plugins
 !.yarn/versions
+
+# build
+/.built/

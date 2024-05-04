@@ -1,0 +1,10 @@
+{
+	"files": [],
+	"include": [],
+	"references": [
+		{ "path": "./cli" },
+		{ "path": "./core" },
+		{ "path": "./web" },
+		{ "path": "./server" }
+	]
+}

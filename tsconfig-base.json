@@ -1,0 +1,57 @@
+{
+	"compilerOptions": {
+		"rootDir": ".",
+		"outDir": ".built/",
+		"skipLibCheck": true,
+
+		// modules and compatability
+		"target": "es2022",
+		"lib": ["es2022"],
+		"moduleDetection": "force",
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"forceConsistentCasingInFileNames": true,
+
+		// aliases
+		"paths": {
+			"@/*": ["./*"],
+			"@core/*": ["./core/*"],
+			"@cli/*": ["./cli/*"],
+			"@web/*": ["./web/*"],
+			"@server/*": ["./server/*"]
+		},
+
+		// non ts files
+		"allowJs": true,
+		"checkJs": true,
+		"resolveJsonModule": true,
+
+		// incremental builds
+		"composite": true,
+		// implied by composite
+		//"incremental": true,
+		//"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"noEmitOnError": true,
+
+		// strictness
+		"strict": true,
+		// implied by strict
+		//"alwaysStrict": true,
+		//"strictNullChecks": true,
+		//"strictBindCallApply": true,
+		//"strictFunctionTypes": true,
+		//"strictPropertyInitialization": true,
+		//"noImplicitAny": true,
+		//"noImplicitThis": true,
+		//"useUnknownInCatchVariables": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true
+	}
+}
