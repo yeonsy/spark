@@ -1,18 +1,8 @@
+import { merge } from 'webpack-merge'
 const rootDir = import.meta.dirname
 
-export default {
+const commonConfig = {
 	mode: 'development',
-	entry: {
-		cli: {
-			import: './cli/cli.ts',
-			chunkLoading: false,
-		},
-		server: {
-			import: './server/server.ts',
-			chunkLoading: false,
-		},
-		web: './web/web.ts',
-	},
 	module: {
 		rules: [
 			{
@@ -38,10 +28,40 @@ export default {
 		},
 		alias: {
 			"@": `${rootDir}`,
-			"@core": `${rootDir}/core`,
-			"@cli": `${rootDir}/cli`,
-			"@web": `${rootDir}/web`,
-			"@server": `${rootDir}/server`,
 		}
 	}
 }
+
+const webConfig = merge(commonConfig, {
+	target: 'web',
+	entry: './web/web.ts',
+})
+
+const nodeConfig = merge(commonConfig, {
+	target: 'node20',
+	entry: {
+		cli: {
+			import: './cli/cli.ts',
+			chunkLoading: false,
+		},
+		server: {
+			import: './server/server.ts',
+			chunkLoading: false,
+		},
+	},
+	output: {
+		module: true,
+	},
+	resolve: {
+		alias: {
+			"@core": `${rootDir}/core`,
+			"@cli": `${rootDir}/cli`,
+			"@server": `${rootDir}/server`,
+		}
+	},
+	experiments: {
+		outputModule: true,
+	}
+})
+
+export default [webConfig, nodeConfig]

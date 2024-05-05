@@ -14,6 +14,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "surrealdb.js": "^1.0.0-beta.5"
+    "surrealdb.js": "^1.0.0-beta.5",
+    "webpack-merge": "^5.10.0"
   }
 }
