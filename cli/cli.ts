@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { Command } from 'commander'
 import { Workspace } from '@core/workspace.js'
+import { Library } from '@core/library.js'
 
 const program = new Command()
 
@@ -19,6 +20,19 @@ workspace
 	.action(async (name: string, options) => {
 		const targetDir = path.resolve(process.cwd(), options.dir)
 		Workspace.init(targetDir, name)
+	})
+
+const library =
+	program.command('library')
+
+library
+	.command('init')
+	.description('Create a new library')
+	.argument('<name>', 'Name of the library')
+	.option('-d, --dir <dir>', 'Directory to create the library in', '.')
+	.action(async (name: string, options) => {
+		const targetDir = path.resolve(process.cwd(), options.dir)
+		Library.init(targetDir, name)
 	})
 
 // seems to work with syncronous parse() too but docs say to use async
