@@ -43,6 +43,7 @@ const nodeConfig = merge(commonConfig, {
 		cli: {
 			import: './cli/cli.ts',
 			chunkLoading: false,
+			filename: 'spark',
 		},
 		server: {
 			import: './server/server.ts',
