@@ -1,52 +1,64 @@
 import { Surreal } from 'surrealdb.js'
 
+const defaultHost = '127.0.0.1'
 const defaultPort = 8000
-const surrealDB = new Surreal()
 
-const createConnection = async (port: number = defaultPort) => {
-	const connectStr = `http://127.0.0.1:${port}/rpc`
-	console.log(`Attempting to connect to surrealdb at ${connectStr}`)
+export class SurrealDB {
+	readonly #db
+	readonly #host
+	readonly #port
 
-	await surrealDB.connect(connectStr)
-	await surrealDB.use({
-		namespace: 'spark',
-		database: 'spark',
-	})
+	constructor(host: string = defaultHost, port: number = defaultPort) {
+		this.#db = new Surreal()
+		this.#host = host
+		this.#port = port
+	}
 
-	console.log('Connected to surrealdb successfully')
-	// todo: handle errors
+	getConnectionStr() {
+		return `http://${this.#host}:${this.#port}/rpc`
+	}
+
+	async connect() {
+		const connectStr = this.getConnectionStr()
+		console.log(`Attempting to connect to surrealdb at ${connectStr}`)
+
+		await this.#db.connect(connectStr)
+		await this.#db.use({
+			namespace: 'spark',
+			database: 'spark',
+		})
+
+		console.log('Connected to surrealdb successfully')
+		// todo: handle error
+	}
+
+	// CREATE $identifier CONTENT $data
+	create(identifier: string, data: any) {
+		return this.#db.create(identifier, data)
+	}
+
+	// SELECT * FROM $identifier
+	select(identifier: string) {
+		return this.#db.select(identifier)
+	}
+
+	// INSERT INTO $identifier $data
+	insert(identifier: string, data: any) {
+		return this.#db.insert(identifier, data)
+	}
+
+	// UPDATE $identifier CONTENT $data
+	update(identifier: string, data: any) {
+		return this.#db.update(identifier, data)
+	}
+
+	// DELETE * FROM $identifier
+	delete(identifier: string) {
+		return this.#db.delete(identifier)
+	}
+
+	// arbitrary queries
+	query(query: string, vars: any) {
+		return this.#db.query(query, vars)
+	}
 }
-
-await createConnection()
-
-// CREATE $identifier CONTENT $data
-const create = (identifier: string, data: any) => {
-	return surrealDB.create(identifier, data)
-}
-
-// SELECT * FROM $identifier
-const select = (identifier: string) => {
-	return surrealDB.select(identifier)
-}
-
-// INSERT INTO $identifier $data
-const insert = (identifier: string, data: any) => {
-	return surrealDB.insert(identifier, data)
-}
-
-// UPDATE $identifier CONTENT $data
-const update = (identifier: string, data: any) => {
-	return surrealDB.update(identifier, data)
-}
-
-// DELETE * FROM $identifier
-const remove = (identifier: string) => {
-	return surrealDB.delete(identifier)
-}
-
-// arbitrary queries
-const query = (query: string, vars: any) => {
-	return surrealDB.query(query, vars)
-}
-
-export { create, select, insert, update, remove as delete, query }
