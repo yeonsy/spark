@@ -17,6 +17,7 @@
 		"paths": {
 			"@/*": ["./*"],
 			"@core/*": ["./core/*"],
+			"@persistence/*": ["./core/persistence/*"],
 			"@cli/*": ["./cli/*"],
 			"@web/*": ["./web/*"],
 			"@server/*": ["./server/*"]

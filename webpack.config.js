@@ -56,6 +56,7 @@ const nodeConfig = merge(commonConfig, {
 	resolve: {
 		alias: {
 			"@core": `${rootDir}/core`,
+			"@persistence": `${rootDir}/core/persistence`,
 			"@cli": `${rootDir}/cli`,
 			"@server": `${rootDir}/server`,
 		}
