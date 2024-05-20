@@ -1,4 +1,4 @@
-import { SurrealDB } from '@persistence/surreal.js'
+import { SurrealDB } from '@io/db/surreal.js'
 
 const instance = new SurrealDB()
 await instance.connect()
