@@ -1,32 +1,59 @@
 import { readFileYaml, writeFileYaml, getCacheDir } from '@core/io/file.js'
 import { Index } from '@core/index.js'
 
+// global index file
 const indexFilename = 'index.yaml'
 const indexFilepath = `${getCacheDir()}/${indexFilename}`
 
-let cachedIndex: Index
+export class IndexFile {
+	path: string
+	#cachedIndex?: Index
 
-export const loadIndex = async () => {
-	console.log(`loading index from ${indexFilepath}`)
-
-	const yaml = await readFileYaml(indexFilepath)
-	const libraries = yaml?.libraries || []
-
-	const index = new Index(libraries)
-	console.log(`loaded index: ${JSON.stringify(index.getEntries())}`)
-
-	return index
-}
-
-export const writeIndex = async (index: Index) => {
-	const libraries = index.getEntries()
-	await writeFileYaml(indexFilepath, { libraries })
-}
-
-export const getIndex = async () => {
-	if (!cachedIndex) {
-		cachedIndex = await loadIndex()
+	constructor(path: string) {
+		this.path = path
 	}
 
-	return cachedIndex
+	async lazyLoadIndex() {
+		if (!this.#cachedIndex) {
+			console.log(`loading index from ${this.path}`)
+			await this.loadIndex()
+			console.log('loaded index:', await this.getEntries())
+		}
+	}
+
+	async loadIndex() {
+		const yaml = await readFileYaml(this.path)
+		const libraries = yaml?.libraries || []
+
+		this.#cachedIndex = new Index(libraries)
+		return this.#cachedIndex
+	}
+
+	async #writeIndex() {
+		const libraries = await this.getEntries()
+		await writeFileYaml(this.path, { libraries })
+	}
+
+	async setIndex(index: Index) {
+		this.#cachedIndex = index
+		await this.#writeIndex()
+	}
+
+	async addEntry(name: string, location: string) {
+		await this.lazyLoadIndex()
+		this.#cachedIndex!.addEntry(name, location)
+		await this.#writeIndex()
+	}
+
+	async hasEntry(name: string) {
+		await this.lazyLoadIndex()
+		return this.#cachedIndex!.hasEntry(name)
+	}
+
+	async getEntries() {
+		await this.lazyLoadIndex()
+		return this.#cachedIndex!.getEntries()
+	}
 }
+
+export const globalIndex = new IndexFile(indexFilepath)
