@@ -29,7 +29,8 @@ const commonConfig = {
 		alias: {
 			"@": `${rootDir}`,
 		}
-	}
+	},
+	devtool: 'inline-source-map'
 }
 
 const webConfig = merge(commonConfig, {
