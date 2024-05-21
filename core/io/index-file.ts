@@ -1,4 +1,4 @@
-import { readFileYaml, getCacheDir } from '@core/io/file.js'
+import { readFileYaml, writeFileYaml, getCacheDir } from '@core/io/file.js'
 import { Index } from '@core/index.js'
 
 const indexFilename = 'index.yaml'
@@ -16,6 +16,11 @@ export const loadIndex = async () => {
 	console.log(`loaded index: ${JSON.stringify(index.getEntries())}`)
 
 	return index
+}
+
+export const writeIndex = async (index: Index) => {
+	const libraries = index.getEntries()
+	await writeFileYaml(indexFilepath, { libraries })
 }
 
 export const getIndex = async () => {
