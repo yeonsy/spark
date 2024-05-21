@@ -12,6 +12,19 @@ export class Index {
 		}
 	}
 
+	addEntry(name: string, location: string) {
+		if (this.#index[name]) {
+			console.error(`could not add index entry: ${name} already exists`)
+			throw new Error()
+		}
+
+		this.#index[name] = location
+	}
+
+	hasEntry(name: string) {
+		return !!this.#index[name]
+	}
+
 	getEntries() {
 		return Object.entries(this.#index).map(
 			([name, location]) => ({ name, location })

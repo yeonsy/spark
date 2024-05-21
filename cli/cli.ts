@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { Command } from 'commander'
+import { getIndex, writeIndex } from '@core/io/index-file.js'
 import { createWorkspace } from '@core/workspace.js'
 import { createLibrary } from '@core/library.js'
 
@@ -31,8 +32,17 @@ library
 	.argument('<name>', 'Name of the library')
 	.option('-d, --dir <dir>', 'Directory to create the library in', '.')
 	.action(async (name: string, options) => {
+		const index = await getIndex()
+		if (index.hasEntry(name)) {
+			console.error(`Error: Library ${name} already exists`)
+			return
+		}
+
 		const targetDir = path.resolve(process.cwd(), options.dir)
 		await	createLibrary(targetDir, name)
+
+		index.addEntry(name, targetDir)
+		await writeIndex(index)
 	})
 
 // seems to work with syncronous parse() too but docs say to use async
