@@ -4,6 +4,8 @@ import { Index } from '@core/index.js'
 const indexFilename = 'index.yaml'
 const indexFilepath = `${getCacheDir()}/${indexFilename}`
 
+let cachedIndex: Index
+
 export const loadIndex = async () => {
 	console.log(`loading index from ${indexFilepath}`)
 
@@ -14,4 +16,12 @@ export const loadIndex = async () => {
 	console.log(`loaded index: ${JSON.stringify(index.getEntries())}`)
 
 	return index
+}
+
+export const getIndex = async () => {
+	if (!cachedIndex) {
+		cachedIndex = await loadIndex()
+	}
+
+	return cachedIndex
 }
