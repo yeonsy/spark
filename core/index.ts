@@ -1,4 +1,4 @@
-import { readIndexFile } from '@core/io/file.js'
+import { readIndexFile } from '@core/io/index-file.js'
 import { parse } from 'yaml'
 
 export class Index {
