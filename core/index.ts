@@ -1,33 +1,20 @@
-import { readIndexFile } from '@core/io/index-file.js'
-import { parse } from 'yaml'
-
 export class Index {
 	#index: { [key: string]: string } = {}
 
 	// todo: typing
-	constructor(yaml: any) {
-		const libraries = yaml?.libraries
-
-		if (!libraries?.[Symbol.iterator]) {
-			console.error('no libraries found in index')
-			return
-		}
-
-		for (const library of libraries) {
-			if (library?.name && library?.location) {
-				this.#index[library.name] = library.location
+	constructor(entries: any[]) {
+		for (const entry of entries) {
+			if (entry?.name && entry?.location) {
+				this.#index[entry.name] = entry.location
 			} else {
 				console.error('could not load library: missing name or location')
 			}
 		}
-
-		console.log(`loaded index: ${JSON.stringify(this.#index)}`)
 	}
 
-	static async fromFile(path?: string) {
-		const file = await readIndexFile(path)
-		const yaml = parse(file)
-
-		return new Index(yaml)
+	getEntries() {
+		return Object.entries(this.#index).map(
+			([name, location]) => ({ name, location })
+		)
 	}
 }

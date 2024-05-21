@@ -1,9 +1,17 @@
-import { readFile, getCacheDir } from '@core/io/file.ts'
+import { readFileYaml, getCacheDir } from '@core/io/file.js'
+import { Index } from '@core/index.js'
 
-const indexFileName = 'index.yaml'
+const indexFilename = 'index.yaml'
+const indexFilepath = `${getCacheDir()}/${indexFilename}`
 
-export const readIndexFile = (path?: string) => {
-	const resolvedPath = path || `${getCacheDir()}/${indexFileName}`
-	console.log(`reading index file from ${resolvedPath}`)
-	return readFile(resolvedPath)
+export const loadIndex = async () => {
+	console.log(`loading index from ${indexFilepath}`)
+
+	const yaml = await readFileYaml(indexFilepath)
+	const libraries = yaml?.libraries || []
+
+	const index = new Index(libraries)
+	console.log(`loaded index: ${JSON.stringify(index.getEntries())}`)
+
+	return index
 }

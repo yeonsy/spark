@@ -1,6 +1,7 @@
 import * as fs from 'node:fs/promises'
+import { parse } from 'yaml'
 
-const getCacheDir = () => {
+export const getCacheDir = () => {
 	const dir = process.env.XDG_CACHE_HOME || `${process.env.HOME}/.cache`
 	return `${dir}/spark`
 }
@@ -11,4 +12,8 @@ export const readFile = (path: string) => {
 			console.error(err)
 			throw err
 		})
+}
+
+export const readFileYaml = (path: string) => {
+	return readFile(path).then(parse)
 }
