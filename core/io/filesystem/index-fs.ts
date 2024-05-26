@@ -1,4 +1,4 @@
-import { readFileYaml, writeFileYaml, getCacheDir } from '@core/io/file.js'
+import { readFileYaml, writeFileYaml, getCacheDir } from '@io/filesystem/file.js'
 import { Index } from '@core/index.js'
 
 // global index file

@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { Command } from 'commander'
-import { globalIndex } from '@core/io/index-file.js'
+import { globalIndex } from '@io/filesystem/index-fs.js'
 import { createWorkspace } from '@core/workspace.js'
 import { createLibrary } from '@core/library.js'
 

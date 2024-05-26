@@ -17,6 +17,7 @@
 		"paths": {
 			"@/*": ["./*"],
 			"@core/*": ["./core/*"],
+			"@io/*": ["./core/io/*"],
 			"@db/*": ["./core/io/db/*"],
 			"@cli/*": ["./cli/*"],
 			"@server/*": ["./server/*"]
