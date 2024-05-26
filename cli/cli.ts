@@ -2,7 +2,7 @@ import path from 'node:path'
 import { Command } from 'commander'
 import { globalIndex } from '@io/filesystem/index-fs.js'
 import { createWorkspace } from '@core/workspace.js'
-import { createLibrary } from '@core/library.js'
+import { createLibrary } from '@io/filesystem/library-fs.js'
 
 const program = new Command()
 
