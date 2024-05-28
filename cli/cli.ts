@@ -2,7 +2,7 @@ import path from 'node:path'
 import { Command } from 'commander'
 import { globalIndex } from '@io/filesystem/index-fs.js'
 import { createWorkspace } from '@core/workspace.js'
-import { createLibrary } from '@io/filesystem/library-fs.js'
+import { createLibrary, importFile } from '@io/filesystem/library-fs.js'
 
 const program = new Command()
 
@@ -41,6 +41,20 @@ library
 		await	createLibrary(targetDir, name)
 		await globalIndex.addEntry(name, targetDir)
 	})
+
+const importCmd =
+	program.command('import')
+		.argument('<file>', 'File to import')
+		.argument('<library>', 'Library to import into')
+		.action(async (file: string, library: string) => {
+			if (!(await globalIndex.hasEntry(library))) {
+				console.error(`Error: Library ${library} does not exist`)
+				return
+			}
+
+			const path = await globalIndex.getEntry(library)
+			await importFile(path!, library, file)
+		})
 
 // seems to work with syncronous parse() too but docs say to use async
 // https://github.com/tj/commander.js?tab=readme-ov-file#action-handler

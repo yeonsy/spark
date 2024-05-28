@@ -1,5 +1,5 @@
 import { mkdir, readdir, readFile } from 'node:fs/promises'
-import { readFileYaml } from '@io/filesystem/file.js'
+import { readFileYaml, writeFileYaml } from '@io/filesystem/file.js'
 import { Library } from '@core/library.js'
 
 // todo: maybe make this configurable?
@@ -31,4 +31,9 @@ export const readLibrary = async (root: string, name: string) => {
 	}
 
 	return new Library(name, items)
+}
+
+export const importFile = async (root: string, name: string, file: string) => {
+	const filepath = `${getLibraryPath(root, name)}/${file}.spark.yaml`
+	await writeFileYaml(filepath, {})
 }
