@@ -25,6 +25,10 @@ export class Index {
 		return !!this.#index[name]
 	}
 
+	getEntry(name: string) {
+		return this.#index[name]
+	}
+
 	getEntries() {
 		return Object.entries(this.#index).map(
 			([name, location]) => ({ name, location })

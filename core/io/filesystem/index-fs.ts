@@ -50,6 +50,11 @@ export class IndexFile {
 		return this.#cachedIndex!.hasEntry(name)
 	}
 
+	async getEntry(name: string) {
+		await this.lazyLoadIndex()
+		return this.#cachedIndex!.getEntry(name)
+	}
+
 	async getEntries() {
 		await this.lazyLoadIndex()
 		return this.#cachedIndex!.getEntries()
